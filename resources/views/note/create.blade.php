@@ -1,5 +1,5 @@
-<x-layout>
+<x-master>
     <div>
         This is a create
     </div>
-</x-layout>
+</x-master>
