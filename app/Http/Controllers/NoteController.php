@@ -12,8 +12,8 @@ class NoteController extends Controller
      */
     public function index()
     {
-        $allnotes = Note::all();
-        return view('note.index',compact('allnotes'));
+        $allnotes = Note::latest()->paginate(15);
+        return view('note.index',['allnotes' => $allnotes]);
     }
 
     /**
@@ -29,8 +29,14 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        
-        return view('note.store');
+        $request->validate([
+           'title' => 'required|max:50',
+           'note'=> 'required|max:400',
+           'user_id'=> 'required|exists:users,id' 
+        ]);
+        $input = $request->all();
+        $note = Note::create($input);
+        return to_route('notes.show',compact('note'))->with('success','Note Created Successfully');
     }
 
     /**
@@ -38,7 +44,7 @@ class NoteController extends Controller
      */
     public function show(Note $note)
     {
-        return view('note.show');
+        return view('note.show', compact('note'));
     }
 
     /**
@@ -46,7 +52,7 @@ class NoteController extends Controller
      */
     public function edit(Note $note)
     {
-        return view('note.edit');
+        return view('note.edit',compact('note'));
     }
 
     /**
@@ -54,7 +60,13 @@ class NoteController extends Controller
      */
     public function update(Request $request, Note $note)
     {
-        return view('note.update');
+        $request->validate([
+            'title' => 'required|max:50',
+            'note'=> 'required|max:400',
+            'user_id'=> 'required|exists:users,id' 
+         ]);
+        $note->update($request->all());
+        return redirect()->route('notes.show',compact('note'))->with('success','Note Updated Successfully');
     }
 
     /**
@@ -62,6 +74,7 @@ class NoteController extends Controller
      */
     public function destroy(Note $note)
     {
-        return view('note.destroy');
+        $note->delete();
+        return to_route('notes.index');
     }
 }

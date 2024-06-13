@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::resource('/note',NoteController::class);
+Route::resource('/notes',NoteController::class);
 
 Route::get('/mail',function(){
     Mail::to('pajex23007@fresec.com')->send(new BasicEmail);

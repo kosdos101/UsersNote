@@ -1,0 +1,23 @@
+body{
+  background-color: rgb(29, 29, 29);
+}
+.container {
+  height: 100%;
+  width: 100%;
+  margin: 10px 20px;
+  gap: 8px;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: center;
+  }
+  .pagination {
+    justify-content: center;
+  }
+  .item{
+    flex-basis: auto;
+    flex-shrink: 4;
+    display: inline-block;
+    flex-grow: 1;
+  }
