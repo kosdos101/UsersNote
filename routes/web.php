@@ -1,11 +1,15 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegisterController;
 use App\Mail\BasicEmail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use PhpParser\Node\Expr\FuncCall;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,3 +36,15 @@ Route::get('/mail',function(){
 
 Route::get('/contact',[ContactController::class,'index'])->name('contact');
 Route::post('/contact/send',[ContactController::class,'store'])->name('contact.send');
+
+Route::get('myregister',[RegisterController::class,'create'])->name('myregister');
+Route::post('myregister/store',[RegisterController::class,'store'])->name('myregister.store');
+Route::get('home/{user}',[RegisterController::class,'show'])->name('home');
+
+Route::get('mylogin',[LoginController::class,'create'])->name('mylogin');
+Route::post('mylogin/store',[LoginController::class,'store'])->name('mylogin.store');
+
+Route::group(['middleware'=>'auth'],function() {
+    Route::get('mydashboard',[DashboardController::class,'index'])->name('mydashboard');
+    Route::get('mylogout',[DashboardController::class,'logout'])->name('mylogout');
+});
